@@ -1,5 +1,7 @@
 .crumb { margin: 0 0 0.5rem; font-weight: 600; }
-.crumb a { text-decoration: none; }
+.crumb a { text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; }
+.crumb { margin-top: -0.6rem; }
+.foot a { display: inline-block; padding: 0.6rem 0; }
 .field-stack { display: grid; gap: 0.9rem; align-content: start; }
 .field-stack h2 { margin: 0; }
 .share { display: grid; gap: 1rem; }
@@ -16,7 +18,7 @@
 .topic { color: var(--muted); font-size: 0.92rem; margin: 0; }
 .slot.taken { background: var(--bg); }
 .who { font-size: 0.92rem; margin: 0; overflow-wrap: anywhere; }
-.slot .actions .btn { min-height: 40px; padding: 0.4rem 0.8rem; }
+.slot .actions .btn { min-height: 44px; padding: 0.4rem 0.8rem; }
 .dot { display: inline-block; width: 0.55rem; height: 0.55rem; border-radius: 50%; background: var(--accent); margin-right: 0.4rem; vertical-align: 0.05em; }
 .taken .dot { background: var(--muted); }
 dialog { width: min(32rem, calc(100vw - 2rem)); border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--ink); padding: 1.25rem; }
