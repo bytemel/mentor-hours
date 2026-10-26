@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mentor Hours: office hours booking for hubs and programmes</title>
+  <meta name="description" content="Mentors open slots, founders book with one link, and two people can never book the same slot. Free, no sign-up, built on Neon Postgres.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232a4fa8'/%3E%3Ccircle cx='16' cy='16' r='8.5' fill='none' stroke='%23fff' stroke-width='2.6'/%3E%3Cpath d='M16 11v5l3.5 2.5' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/app.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="top">
+    <div class="wrap">
+      <p class="crumb"><a href="/">Mentor Hours</a></p>
+      <h1 id="title">Office hours that book themselves</h1>
+      <p class="lead" id="lead">Mentors open slots. Founders book with one link. Two people can never book the same slot, even if they press Book at the same second.</p>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <p id="status" class="notice" role="status" hidden></p>
+
+    <section id="home" hidden>
+      <div class="pair">
+        <div class="card">
+          <h2>Try it</h2>
+          <p>The demo hub has three mentors and fresh slots for the next five weekdays. Book one, then try booking it again from another tab.</p>
+          <a class="btn btn-primary" href="/b/demo">Open the demo board</a>
+        </div>
+        <form class="card field-stack" id="create">
+          <h2>Make your own board</h2>
+          <div class="field"><label for="c-title">Board name</label><input id="c-title" name="title" type="text" maxlength="80" required placeholder="Cohort 4 mentor office hours"></div>
+          <div class="field"><label for="c-host">Run by</label><input id="c-host" name="host" type="text" maxlength="60" required placeholder="Programme team"></div>
+          <button class="btn btn-primary" type="submit">Create board</button>
+          <p class="hint">No sign-up. You get a private manage link: keep it, it is the only key.</p>
+        </form>
+      </div>
+      <section class="card">
+        <h2>How it works</h2>
+        <ol class="steps">
+          <li>Create a board and keep the manage link.</li>
+          <li>Open slots for each mentor: date, time, length, topic.</li>
+          <li>Share the public link in the cohort WhatsApp group.</li>
+          <li>Founders book with a name and a phone or email. Each gets a calendar file and a cancel link.</li>
+          <li>The manage view shows who booked what and what they want help with.</li>
+        </ol>
+        <p class="hint">Times are East Africa Time. Data sits in Neon Postgres. Boards with no use for 90 days are deleted.</p>
+      </section>
+    </section>
+
+    <section id="manage-tools" hidden>
+      <div class="card">
+        <h2>Share and manage</h2>
+        <div class="share">
+          <div class="field"><label for="public-link">Public link for founders</label><div class="copy-row"><input id="public-link" type="text" readonly><button class="btn" type="button" data-copy="public-link">Copy</button></div></div>
+          <div class="field"><label for="manage-link">Your manage link (private)</label><div class="copy-row"><input id="manage-link" type="text" readonly><button class="btn" type="button" data-copy="manage-link">Copy</button></div></div>
+        </div>
+      </div>
+      <form class="card" id="add-slot">
+        <h2>Open a slot</h2>
+        <div class="grid-4">
+          <div class="field"><label for="s-mentor">Mentor</label><input id="s-mentor" name="mentor" type="text" maxlength="60" required list="mentor-list"></div>
+          <div class="field"><label for="s-topic">Topic</label><input id="s-topic" name="topic" type="text" maxlength="80" placeholder="Pitch decks"></div>
+          <div class="field"><label for="s-date">Date</label><input id="s-date" name="date" type="date" required></div>
+          <div class="field"><label for="s-time">Start (EAT)</label><input id="s-time" name="time" type="time" required step="300"></div>
+          <div class="field"><label for="s-min">Length</label><select id="s-min" name="minutes"><option value="20">20 min</option><option value="30" selected>30 min</option><option value="45">45 min</option><option value="60">60 min</option><option value="90">90 min</option></select></div>
+        </div>
+        <datalist id="mentor-list"></datalist>
+        <button class="btn btn-primary" type="submit">Add slot</button>
+      </form>
+    </section>
+
+    <section id="board" hidden aria-labelledby="slots-h">
+      <div class="head-row"><h2 id="slots-h">Upcoming slots</h2><span class="hint" id="count"></span></div>
+      <div id="days"></div>
+    </section>
+
+    <dialog id="book-dialog" aria-labelledby="book-h">
+      <form id="book" method="dialog">
+        <h2 id="book-h">Book this slot</h2>
+        <p id="book-what"></p>
+        <div class="field"><label for="b-name">Your name</label><input id="b-name" name="name" type="text" maxlength="60" required autocomplete="name"></div>
+        <div class="field"><label for="b-contact">Phone or email</label><input id="b-contact" name="contact" type="text" maxlength="80" required autocomplete="email"></div>
+        <div class="field"><label for="b-note">What do you want help with? <span class="hint">(optional)</span></label><textarea id="b-note" name="note" rows="3" maxlength="280"></textarea></div>
+        <p id="book-error" class="notice notice-alert" role="alert" hidden></p>
+        <div class="actions"><button class="btn btn-primary" type="submit" value="book">Book</button><button class="btn" type="button" id="book-cancel">Close</button></div>
+      </form>
+    </dialog>
+
+    <dialog id="done-dialog" aria-labelledby="done-h">
+      <h2 id="done-h">You are booked</h2>
+      <p id="done-what"></p>
+      <div class="actions">
+        <a class="btn btn-primary" id="ics" download="office-hours.ics">Add to calendar</a>
+        <a class="btn" id="gcal" target="_blank" rel="noopener">Google Calendar</a>
+      </div>
+      <p class="hint">Need to cancel? This browser keeps your cancel button on the board. Save this link too:</p>
+      <div class="copy-row"><input id="cancel-link" type="text" readonly aria-label="Cancel link"><button class="btn" type="button" data-copy="cancel-link">Copy</button></div>
+      <div class="actions"><button class="btn" type="button" id="done-close">Done</button></div>
+    </dialog>
+  </main>
+
+  <footer class="wrap foot">
+    <p>Open source: <a href="https://github.com/bytemel/mentor-hours">github.com/bytemel/mentor-hours</a>. Built by <a href="https://timmwangi.com">Timothy Mwangi</a>.</p>
+  </footer>
+</body>
+</html>

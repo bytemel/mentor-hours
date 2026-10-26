@@ -1,0 +1,18 @@
+{
+  "name": "mentor-hours",
+  "version": "1.0.0",
+  "description": "Office hours booking for hubs and programmes: mentors open slots, founders book with one link, no double booking. Neon Postgres on Vercel.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Timothy Mwangi",
+  "scripts": {
+    "dev": "vercel dev",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "1.2.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
